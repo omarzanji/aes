@@ -1,35 +1,29 @@
 `timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer: 
-// 
+// Company: Auburn University
+// Engineer: Omar Barazanji
 // Create Date: 10/04/2021 04:28:52 PM
-// Design Name: 
 // Module Name: sbox
-// Project Name: 
-// Target Devices: 
-// Tool Versions: 
-// Description: 
-// 
-// Dependencies: 
-// 
-// Revision:
-// Revision 0.01 - File Created
-// Additional Comments:
-// 
+// Description: module is input, output as sbox(address[7 : 0], sbox_data[7 : 0]) 
+//              for the design requirement.
 //////////////////////////////////////////////////////////////////////////////////
 
-
+// Setting up the module's I/O
 module sbox(
     input wire [7 : 0] sbox_in,
     output wire [7 : 0] sbox_out
 );
 
-//sbox(address[7 : 0], sbox- Data[7 : 0])
+    // s-box array with 8-bit wide storage cell and depth of 256 cells.
     wire [7 : 0] sbox_arr [0 : 255];
     
+    // map the output wire "sbox_out" to the "sbox_arr" cell 
+    // with the address as the input wire "sbox_in".
     assign sbox_out[7 : 0] = sbox_arr[sbox_in[7 : 0]];
 
+    // Sbox array mappings from here until the end of the module... 
+    // values retrieved from course textbook. They can also be found online 
+    // as AES is a standard protocol.
     assign sbox_arr[8'h00] = 8'h63;
     assign sbox_arr[8'h01] = 8'h7c;
     assign sbox_arr[8'h02] = 8'h77;
