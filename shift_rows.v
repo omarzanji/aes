@@ -9,16 +9,24 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 module shift_rows (
-    input wire [127 : 0] shift_rows_in;
-    output wire [127: 0] shift_rows_out;
+    input wire [0 : 127] shift_rows_in;
+    output wire [0 : 127] shift_rows_out;
 );
 
 // state matrix 
-assign reg [1 : 0] state_matrix [0 : 15];
-assign reg [1 : 0] output_matrix [0 : 15];
+assign reg [1 : 0] state_matrix [0 : 127];
+assign reg [1 : 0] output_matrix [0 : 127];
 
-assign state_matrix[1'b00] = {shift_rows_in[0:],shift_rows_in[0:],shift_rows_in[0:],shift_rows_in[0:]};
-assign state_matrix[1'b01] = shift_rows_in[];
+assign state_matrix[1'b00] = {
+    state_matrix[0+:8] = shift_rows_in[0+:8],
+    state_matrix[32+:8] = shift_rows_in[32+:8],
+    state_matrix[64+:8] = shift_rows_in[64+:8],
+    state_matrix[96+:8] = shift_rows_in[96+:8]
+};
+
+assign state_matrix[1'b01] = {
+    shift_rows_in[7]};
+    
 assign state_matrix[1'b10] = shift_rows_in[];
 assign state_matrix[1'b11] = shift_rows_in[];
 
