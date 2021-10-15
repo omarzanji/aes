@@ -2,16 +2,18 @@
 //////////////////////////////////////////////////////////////////////////////////
 // Company: Auburn University
 // Engineer: Omar Barazanji
-// Create Date: 10/12/2021 04:28:52 PM
+// Create Date: 10/12/2021 
 // Module Name: top
-// Description: AES 128-bit
+// Description: AES 128-bit top layer.
 //////////////////////////////////////////////////////////////////////////////////
 
+// setting up I/O
 module top (
     input wire [0 : 127] in,
     output wire [0 : 127] out
 );
 
+// sub-box units
 wire [7:0] b0;
 wire [7:0] b1;
 wire [7:0] b2;
@@ -29,6 +31,7 @@ wire [7:0] b13;
 wire [7:0] b14;
 wire [7:0] b15;
 
+// complete 128-bit sbox array input
 wire [0:127] sub_arr;
 assign sub_arr = {
     b0, b1, b2, b3,
@@ -37,6 +40,7 @@ assign sub_arr = {
     b12, b13, b14, b15
 };
 
+// wiring all 16 sbox's
 sbox sbox1_top (.sbox_in(in[0+:8]), .sbox_out(b0));
 sbox sbox2_top (.sbox_in(in[8+:8]), .sbox_out(b1));
 sbox sbox3_top (.sbox_in(in[16+:8]), .sbox_out(b2));
@@ -54,11 +58,15 @@ sbox sbox14_top (.sbox_in(in[104+:8]), .sbox_out(b13));
 sbox sbox15_top (.sbox_in(in[112+:8]), .sbox_out(b14));
 sbox sbox16_top (.sbox_in(in[120+:8]), .sbox_out(b15));
 
+// wiring shift row
 wire [0:127] shift_arr;
 shift_rows shift_rows_top (.shift_rows_in(sub_arr), .shift_rows_out(shift_arr));
 
+// wiring mix col
 wire [0:127] mix_arr;
 mix_col mix_col_top(.mix_col_in(shift_arr), .mix_col_out(mix_arr));
 
+// send output 
 assign out = mix_arr;
+
 endmodule

@@ -4,25 +4,34 @@
 // Engineer: Omar Barazanji
 // Create Date: 10/12/2021 
 // Module Name: mix_col
-// Description: 
+// Description: Takes input from 128-bit shift_rows layer's output and outputs 
+//              128-bit result to be sent to the next layer.
 //////////////////////////////////////////////////////////////////////////////////
 
+// setting up I/O
 module mix_col (
     input wire [0 : 127] mix_col_in,
     output wire [0 : 127] mix_col_out
 );
 
+// function for handling GF(2^8) multiplication by 2.
 function [7:0] mult_two;
     input [7:0] x;
     begin
+        // if overflow, XOR by GF(2^8) irreducible p(x) binary '00011011'/
         if (x[7] == 1) mult_two = ((x << 1) ^ 8'h1b);
+        // Multiplication by two can be realized by a simple
+        // bitshift to the left.
         else mult_two = x << 1;
     end
 endfunction
 
+// function for handling GF(2^8) multiplication by 3.
 function [7:0] mult_three;
     input [7:0] x;
     begin
+       // Multiplication by three can be realized as:
+       //   3*x = (2x XOR x) 
        mult_three = mult_two(x)^x;
     end
 endfunction

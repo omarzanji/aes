@@ -13,6 +13,7 @@ module top_tb;
 // setting up sample message inputs to test on 
 reg [0:127] sample_input;
 
+// setting up a wire to output
 wire [0:127] sample_output;
 
 // connect the sbox module to the in/out created above
