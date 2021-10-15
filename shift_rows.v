@@ -2,10 +2,9 @@
 //////////////////////////////////////////////////////////////////////////////////
 // Company: Auburn University
 // Engineer: Omar Barazanji
-// Create Date: 10/12/2021 04:28:52 PM
+// Create Date: 10/12/2021 
 // Module Name: shift_rows
-// Description: module is input, output as sbox(address[7 : 0], sbox_data[7 : 0]) 
-//              for the design requirement.
+// Description: 
 //////////////////////////////////////////////////////////////////////////////////
 
 module shift_rows (
@@ -14,7 +13,7 @@ module shift_rows (
 );
 
 // state matrix 
-wire [1 : 0] output_matrix [0 : 32];
+wire [0 : 31] output_matrix [0 : 3];
 
 assign shift_rows_out = {
     output_matrix[2'b00],
