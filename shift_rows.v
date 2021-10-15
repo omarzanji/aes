@@ -9,26 +9,46 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 module shift_rows (
-    input wire [0 : 127] shift_rows_in;
-    output wire [0 : 127] shift_rows_out;
+    input wire [0 : 127] shift_rows_in,
+    output wire [0 : 127] shift_rows_out
 );
 
 // state matrix 
-assign reg [1 : 0] state_matrix [0 : 127];
-assign reg [1 : 0] output_matrix [0 : 127];
+wire [1 : 0] output_matrix [0 : 32];
 
-assign state_matrix[1'b00] = {
-    state_matrix[0+:8] = shift_rows_in[0+:8],
-    state_matrix[32+:8] = shift_rows_in[32+:8],
-    state_matrix[64+:8] = shift_rows_in[64+:8],
-    state_matrix[96+:8] = shift_rows_in[96+:8]
+assign shift_rows_out = {
+    output_matrix[2'b00],
+    output_matrix[2'b01],
+    output_matrix[2'b10],
+    output_matrix[2'b11]
 };
 
-assign state_matrix[1'b01] = {
-    shift_rows_in[7]};
-    
-assign state_matrix[1'b10] = shift_rows_in[];
-assign state_matrix[1'b11] = shift_rows_in[];
+assign output_matrix[2'b00] = {
+    shift_rows_in[0+:8],
+    shift_rows_in[32+:8],
+    shift_rows_in[64+:8],
+    shift_rows_in[96+:8]
+};
 
+assign output_matrix[2'b01] = {
+    shift_rows_in[40+:8],
+    shift_rows_in[72+:8],
+    shift_rows_in[104+:8],
+    shift_rows_in[8+:8]
+};
+    
+assign output_matrix[2'b10] = {
+    shift_rows_in[80+:8],
+    shift_rows_in[112+:8],
+    shift_rows_in[16+:8],
+    shift_rows_in[48+:8]
+};
+
+assign output_matrix[2'b11] = {
+    shift_rows_in[120+:8],
+    shift_rows_in[24+:8],
+    shift_rows_in[56+:8],
+    shift_rows_in[88+:8]
+};
 
 endmodule
