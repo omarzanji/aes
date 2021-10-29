@@ -10,41 +10,74 @@
 // initialize module top_tb
 module top_tb;
 
-// setting up sample message inputs to test on 
+// setting up sample inputs to test on 
 reg [0:127] sample_input;
 
-// setting up a wire to output
 wire [0:127] sample_output;
+wire [0:127] key_out_tb;
+reg [0:127] key_out_reg;
+
+reg [0 : 4] round_tb;
+reg [0 : 127] key_tb;
+
+reg [0 : 127] out_reg;
 
 // connect the sbox module to the in/out created above
-top top_tb(.in(sample_input), .out(sample_output));
-
+top top_tb(.in(sample_input), .round(round_tb), .key(key_tb), .key_out(key_out_tb), .out(sample_output));
 initial
 begin
 
     // monitor in/out in simulation
-    $monitor(sample_input, sample_output);
+    $monitor(sample_input, round_tb, key_tb, key_out_tb, sample_output);
     
-    #5
-    sample_input = {  // sample 1
-        8'h19,
-        8'h3d,
-        8'he3,
-        8'hbe,
-        8'ha0,
-        8'hf4,
-        8'he2,
-        8'h2b,
-        8'h9a,
-        8'hc6,
+    assign out_reg = sample_output;
+    assign key_out_reg = key_out_tb;
+    #5 // round 0
+    sample_input = {  
+        8'h32,
+        8'h43,
+        8'hf6,
+        8'ha8,
+        8'h88,
+        8'h5a,
+        8'h30,
         8'h8d,
-        8'h2a,
-        8'he9,
-        8'hf8,
-        8'h48,
-        8'h08
+        8'h31,
+        8'h31,
+        8'h98,
+        8'ha2,
+        8'he0,
+        8'h37,
+        8'h07,
+        8'h34
     };
+    round_tb = 0;
+    key_tb = {  
+        8'h2b,
+        8'h7e,
+        8'h15,
+        8'h16,
+        8'h28,
+        8'hae,
+        8'hd2,
+        8'ha6,
+        8'hab,
+        8'hf7,
+        8'h15,
+        8'h88,
+        8'h09,
+        8'hcf,
+        8'h4f,
+        8'h3c
+    };
+    
+    #5 // round 1
+    round_tb = 1;
+    key_tb = key_out_reg;
+    sample_input = out_reg;
 
+    #5
+    round_tb =2;
     
 end
 endmodule
