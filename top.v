@@ -10,27 +10,28 @@
 module top (
     input wire [0 : 127] in,
     input wire [0 : 4] round,
+    input wire clk,
     input wire [0 : 127] key,
     output wire [0 : 127] key_out,
-    output wire [0 : 127] out
+    output reg [0 : 127] out
 );
 
-wire [7:0] b0;
-wire [7:0] b1;
-wire [7:0] b2;
-wire [7:0] b3;
-wire [7:0] b4;
-wire [7:0] b5;
-wire [7:0] b6;
-wire [7:0] b7;
-wire [7:0] b8;
-wire [7:0] b9;
-wire [7:0] b10;
-wire [7:0] b11;
-wire [7:0] b12;
-wire [7:0] b13;
-wire [7:0] b14;
-wire [7:0] b15;
+wire [0:7] b0;
+wire [0:7] b1;
+wire [0:7] b2;
+wire [0:7] b3;
+wire [0:7] b4;
+wire [0:7] b5;
+wire [0:7] b6;
+wire [0:7] b7;
+wire [0:7] b8;
+wire [0:7] b9;
+wire [0:7] b10;
+wire [0:7] b11;
+wire [0:7] b12;
+wire [0:7] b13;
+wire [0:7] b14;
+wire [0:7] b15;
 
 wire [0:127] sub_arr;
 assign sub_arr = {
@@ -68,17 +69,19 @@ wire [0:127] mix_arr;
 mix_col mix_col_top(.mix_col_in(shift_arr), .mix_col_out(mix_arr));
 
 // connect the sbox module to the in/out created above
-key_scheduler key_scheduler_tb(.round_in(round), .key_in(key), .out(out_key_scheduler));
+key_scheduler key_scheduler_tb(.round_in(round), .clk(clk), .key_in(key), .out(out_key_scheduler));
 assign key_out = out_key_scheduler;
 
-always @(round) begin
+always @( clk) begin
     case(round)
         0:
             out_reg = in ^ key;
+        10:
+            out_reg = shift_arr ^ out_key_scheduler;
         default:
             out_reg = mix_arr ^ out_key_scheduler;
     endcase
-end
 
-assign out = out_reg;
+out = out_reg;
+end
 endmodule
