@@ -13,5 +13,8 @@ HDL implementation of the AES Protocol.
 ## Expected Output (official AES sim):
 ![Expected Output](fips-197.png "Expected Output")
 
+## Ciphertext Simulation (10 rounds):
+![Ciphertext Simulation](cipher_text.png "Ciphertext Simulation")
+
 ## Complete Cipher 
 ![Complete Cipher](fips-197(2).png "Complete Cipher")
