@@ -17,4 +17,4 @@ HDL implementation of the AES Protocol.
 ![Ciphertext Simulation](cipher_text.png "Ciphertext Simulation")
 
 ## Complete Cipher 
-![Complete Cipher](fips-197(2).png "Complete Cipher")
+![Complete Cipher](fips-197(3).png "Complete Cipher")
