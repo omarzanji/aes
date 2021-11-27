@@ -228,20 +228,19 @@ always @(posedge CLK10MHZ) begin
                 if (o_Rx_DV==1) begin // wait for downlink to finish
                     status=3'b110;
                     in[counter*8+:8]=w_Rx_Byte; // set input to incoming msg
-//                    counter=counter+1; // count until full, 128-bit input received
+                    counter=counter+1; // count until full, 128-bit input received
                     state=2; // go to downlink finish state
                 end      
             end
         2: // downlink finish state
             begin
-                if (in[counter*8+:8]==debug_input[counter*8+:8]) begin
-                    counter=counter+1; 
+                if (counter==16) begin
                     status=3'b111;
-                    if (in==debug_input) begin
-                        state=3;
-                        counter=0;
-                    end
+                    state=3;
+                    counter=0;
                 end
+//                    end
+//                end
                 else begin
                     state=0; // go back to checking for input
                 end
