@@ -18,3 +18,6 @@ HDL implementation of the AES Protocol.
 
 ## Complete Cipher 
 ![Complete Cipher](fips-197(3).png "Complete Cipher")
+
+## UART + AES
+![UART + AES](uart_aes_sim.png "UART + AESr")
